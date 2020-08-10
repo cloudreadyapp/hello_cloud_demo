@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!--
+	Copyright (c) 2020, 2020 IBM Corporation and others.
+	All rights reserved. This program and the accompanying materials
+	are made available under the terms of the Eclipse Public License v1.0
+	which accompanies this distribution, and is available at
+	http://www.eclipse.org/legal/epl-v10.html
+
+	Contributors:
+	IBM Corporation - initial API and implementation
+-->
+
+<server description="Cloud Demo Backend">
+	<!-- tag::featureManager[] -->
+	<featureManager>
+		<feature>jaxrs-2.1</feature>
+		<feature>cdi-2.0</feature>
+		<feature>mpConfig-1.3</feature>
+	</featureManager>
+	<!-- end::featureManager[] -->
+
+	<!-- defining logging path -->
+	<logging traceSpecification="com.ibm.ws.microprofile.health.*=all"/>
+
+	<!-- tag::httpEndpoint[] -->
+	<httpEndpoint httpPort="${default.http.port}" httpsPort="${default.https.port}"
+		id="defaultHttpEndpoint" host="*"/>
+	<!-- end::httpEndpoint[] -->
+
+    <!-- tag::webApplication[] -->
+  <webApplication location="hello-cloud-demo.war" contextRoot="${app.context.root}"/>
+  <!-- end::webApplication[] -->
+
+</server>

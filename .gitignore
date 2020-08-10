@@ -1,0 +1,11 @@
+target/
+.classpath
+.factorypath
+.project
+.settings/
+.DS_store
+.vscode/
+server.env
+database/dockerfiles/
+database/docker-compose.yml
+cloudDemoBuild.log
