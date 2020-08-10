@@ -18,9 +18,9 @@ Contains additional fields:
 
 Replace `http://localhost:9080/` with `TBD` if not running the backend locally.
 
-### If running locally follow instructions from [here](TBD). Copy server.env into database/src/main/liberty/config/ or export cloudant api key via
+### If running locally follow instructions from [here](https://github.com/bragaigor/hello_cloud_demo/blob/master/README.md). Copy server.env into database/src/main/liberty/config/ or export cloudant api key via
 export cloudantapikey="<cloudant API key here>"
-### Then follow instructions from [Build and run project](TBD) or run
+### Then follow instructions from [Build and run project](https://github.com/bragaigor/hello_cloud_demo/blob/master/scripts/README.md) or run
 ./scripts/buildAndRunContainers.sh
 
 

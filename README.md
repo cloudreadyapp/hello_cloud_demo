@@ -1,5 +1,5 @@
 # hello-cloud-demo-backend
-Backend for Pixel Journal, a JumpStart Tech Challenge Project.
+Hello Cloud App, A Skeleton to help you build your cloud ready backend for your app
 
 ## System pre-requisites
 - Java
@@ -8,11 +8,11 @@ Backend for Pixel Journal, a JumpStart Tech Challenge Project.
 
 # How to run the project
 
-## Clone the project
+## Clone or Fork the project
 ```
-git clone git@github.ibm.com:pixeljournal/pixel-journal-backend.git
-cd pixel-journal-backend
-# put server.env file in database/src/main/liberty/config/ directory (get server.env file from slack)
+git clone https://github.com/bragaigor/hello_cloud_demo.git
+cd hello_cloud_demo
+# put server.env file in database/src/main/liberty/config/ directory
 # or export cloudantapikey via
 export cloudantapikey=<key>
 ```
@@ -45,14 +45,16 @@ Use CTRL+C to quit viewing the logs.
 ## Testing the microservices. Once the containers are up and running do:
 ```
 cd test
+mvn liberty:dev
 ```
+
+##### And press enter
 
 #### If you want to use browser or curl you'll need to include an extra header parameter e.g.
 ```
 curl http://localhost:9080/HelloCloudDemoProject/demo/database/retrieve/{email}
 ```
 
-## Access the Webapp at (you'll get 401 response if header is not set up properly). Recommend using [postman](https://www.postman.com/downloads/):
 #### If using postman: when making a request add an extra header field that has Key: "Authorization" and Value: "Bearer `<accessToken>`"
 - http://localhost:9080/HelloCloudDemoProject/demo/database/retrieve/{email}
 
