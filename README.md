@@ -10,7 +10,7 @@ Hello Cloud App, A Skeleton to help you build your cloud ready backend for your 
 
 ## Clone or Fork the project
 ```
-git clone https://github.com/bragaigor/hello_cloud_demo.git
+git clone https://github.com/cloudreadyapp/hello_cloud_demo.git
 cd hello_cloud_demo
 # put server.env file in database/src/main/liberty/config/ directory
 # or export cloudantapikey via
