@@ -16,6 +16,8 @@
 		<feature>jaxrs-2.1</feature>
 		<feature>cdi-2.0</feature>
 		<feature>mpConfig-1.3</feature>
+		<feature>ssl-1.0</feature>
+		<feature>transportSecurity-1.0</feature>
 	</featureManager>
 	<!-- end::featureManager[] -->
 
@@ -27,8 +29,24 @@
 		id="defaultHttpEndpoint" host="*"/>
 	<!-- end::httpEndpoint[] -->
 
+	<!-- <keyStore id="digicertRootCA" password="digicert" location="${server.config.dir}/resources/security/digicert-root-ca.jks"/>
+    <ssl id="oidcClientSSL" keyStoreRef="defaultKeyStore" trustStoreRef="digicertRootCA" /> -->
+
+	<!-- <keyStore id="keyStore" location="${server.config.dir}/key.p12" type="PKCS12" password="liberty" />
+	<ssl id="defaultSSLConfig" keyStoreRef="keyStore" verifyHostname="true" /> -->
+
     <!-- tag::webApplication[] -->
   <webApplication location="hello-cloud-demo.war" contextRoot="${app.context.root}"/>
   <!-- end::webApplication[] -->
+
+  <cors domain="/HelloCloudDemoProject/demo/database/retrieve"
+    allowedOrigins="*"
+    allowedMethods="GET, OPTIONS, DELETE"
+    allowCredentials="true" />
+
+  <cors domain="/HelloCloudDemoProject/demo/database/store/document"
+    allowedOrigins="*"
+    allowedMethods="POST, OPTIONS, DELETE"
+    allowCredentials="true" />
 
 </server>

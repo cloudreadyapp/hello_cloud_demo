@@ -52,11 +52,23 @@ mvn liberty:dev
 
 #### If you want to use browser or curl you'll need to include an extra header parameter e.g.
 ```
-curl http://localhost:9080/HelloCloudDemoProject/demo/database/retrieve/{email}
+curl http://localhost:9080/HelloCloudDemoProject/demo/database/retrieve?firstName=firstname&lastName=lastname
 ```
 
 #### If using postman: when making a request add an extra header field that has Key: "Authorization" and Value: "Bearer `<accessToken>`"
-- http://localhost:9080/HelloCloudDemoProject/demo/database/retrieve/{email}
+- http://localhost:9080/HelloCloudDemoProject/demo/database/retrieve?firstName=Igor&lastName=Braga
+
+#### Sample POST request
+- http://localhost:9080/HelloCloudDemoProject/demo/database/store/document
+
+#### Sample POST body
+```
+{
+  "first_name": "Igor",
+  "last_name": "Braga",
+  "email": "igor@braga.random.com"
+}
+```
 
 --- 
 # Interacting with the database

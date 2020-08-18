@@ -27,22 +27,18 @@ import javax.json.bind.annotation.JsonbProperty;
 
 public class DemoDocument extends Document {
 
-	public static final String PAYLOAD_PROPERTY_STRING = "payload";
-	public static final String RANDOM_NUMBER_PROPERTY_STRING = "random_number";
-	public static final String LOCATION_PROPERTY_STRING = "location";
 	public static final String EMAIL_PROPERTY_STRING = "email";
+	public static final String FIRSTNAME_PROPERTY_STRING = "first_name";
+	public static final String LASTNAME_PROPERTY_STRING = "last_name";
 
 	@JsonbProperty(EMAIL_PROPERTY_STRING)
 	private String email = null;
 
-	@JsonbProperty(PAYLOAD_PROPERTY_STRING)
-	private String payload = null;
+	@JsonbProperty(FIRSTNAME_PROPERTY_STRING)
+	private String first_name = null;
 
-	@JsonbProperty(RANDOM_NUMBER_PROPERTY_STRING)
-	private Integer random_number = null;
-
-	@JsonbProperty(LOCATION_PROPERTY_STRING)
-	private String location = null;
+	@JsonbProperty(LASTNAME_PROPERTY_STRING)
+	private String last_name = null;
 
 	public DemoDocument() {
 	}
@@ -50,35 +46,30 @@ public class DemoDocument extends Document {
 	/* For POST requests */
 	@JsonbCreator
 	public DemoDocument(
-		@JsonbProperty(PAYLOAD_PROPERTY_STRING) String payload,
-		@JsonbProperty(RANDOM_NUMBER_PROPERTY_STRING) Integer random_number,
-		@JsonbProperty(LOCATION_PROPERTY_STRING) String location,
-		@JsonbProperty(EMAIL_PROPERTY_STRING) String email
+		@JsonbProperty(EMAIL_PROPERTY_STRING) String email,
+		@JsonbProperty(FIRSTNAME_PROPERTY_STRING) String first_name,
+		@JsonbProperty(LASTNAME_PROPERTY_STRING) String last_name
 	) {
-		this.payload = payload;
-		this.random_number = random_number;
-		this.location = location;
 		this.email = email;
-	}
-
-	public void setPayload(String payload){
-		this.payload = payload;
-	}
-		
-	public void setRandom_number(Integer random_number){
-		this.random_number = random_number;
-	}
-	
-	public void setLocation(String location){
-		this.location = location;
+		this.first_name = first_name;
+		this.last_name = last_name;
 	}
 
 	public void setEmail(String email){
 		this.email = email;
 	}
 
-	public void setEmailAsId(){
-		super.setId(this.email);
+	public void setFirstLastNameAsId(){
+		String newID = this.first_name + this.last_name;
+		super.setId(newID);
+	}
+
+	public void setFirst_name(String first_name){
+		this.first_name = first_name;
+	}
+
+	public void setLast_name(String last_name){
+		this.last_name = last_name;
 	}
 
 	/**
@@ -151,7 +142,7 @@ public class DemoDocument extends Document {
 	public boolean isEmpty() {
 		boolean isEmpty = false;
 
-		if (null == this.email) {
+		if (null == this.first_name && null == this.last_name) {
 			isEmpty = true;	
 		}
 
