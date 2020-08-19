@@ -1,0 +1,45 @@
+body {
+	font-family: 'IBM Plex Sans', sans-serif;
+	max-width: 600px;
+	font-size: 19px;
+	margin: 15px auto;
+	color: black;
+	background: #A791C2;
+	text-align: center;
+	line-height: 1.2;
+}
+
+br {
+	line-height: 0.5;
+}
+
+a {
+	font-size: 15px;
+}
+
+input[type=text] {
+    padding: 5px;
+    border: 2px solid #A791C2;
+	border-radius: 5px;
+	font-size: 15px;
+}
+
+input[type=submit] {
+    padding: 5px 15px;
+	background:#A791C2;
+	color: white;
+    border: 0 none;
+    cursor: pointer;
+	border-radius: 5px;
+	font-size: 15px;
+}
+
+.request-parameter-container {
+	line-height: 2;
+}
+
+#site-container {
+	padding: 30px;
+	background: white;
+	box-shadow: 5px 5px 5px #6A5C7B;
+}
