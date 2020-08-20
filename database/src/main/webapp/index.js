@@ -13,8 +13,8 @@ window.addEventListener('load', () => {
 	const get_contact_data_p = document.getElementById('get_contact_data_p');
 
 	// Server Endpoints
-	const serverEndpointGETurl = 'http://169.51.194.167:30422/HelloCloudDemoProject/demo/database/retrieve';
-	const serverEndpointPOSTurl = 'https://169.51.194.167:30565/HelloCloudDemoProject/demo/database/store/document';
+	const serverEndpointGETurl = 'http://169.51.194.167:31082/HelloCloudDemoProject/demo/database/retrieve';
+	const serverEndpointPOSTurl = 'https://169.51.194.167:31082/HelloCloudDemoProject/demo/database/store/document';
 
 	// Add contact form submit listener
 	add_contact_form.addEventListener('submit', (event) => {
