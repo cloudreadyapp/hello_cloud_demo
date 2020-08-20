@@ -13,8 +13,8 @@ window.addEventListener('load', () => {
 	const get_contact_data_p = document.getElementById('get_contact_data_p');
 
 	// Server Endpoints
-	const serverEndpointGETurl = 'http://169.51.194.167:31082/HelloCloudDemoProject/demo/database/retrieve';
-	const serverEndpointPOSTurl = 'https://169.51.194.167:31082/HelloCloudDemoProject/demo/database/store/document';
+	const serverEndpointPOSTurl = 'http://' + window.location.host + '/HelloCloudDemoProject/demo/database/store/document';
+	const serverEndpointGETurl = 'http://' + window.location.host + '/HelloCloudDemoProject/demo/database/retrieve';
 
 	// Add contact form submit listener
 	add_contact_form.addEventListener('submit', (event) => {
@@ -33,20 +33,28 @@ window.addEventListener('load', () => {
 		add_contact_data_p.innerText = 'Adding contact...';
 
 		const data = {
-			'firstName': add_contact_first_name_input.value,
-			'lastName': add_contact_last_name_input.value,
+			'first_name': add_contact_first_name_input.value,
+			'last_name': add_contact_last_name_input.value,
 			'email': add_contact_email_input.value
 		};
 
-		submitPOSTRequest(data).then((response) => {
-			if (response.ok) {
-				add_contact_data_p.innerText = response.json();
-			} else {
-				add_contact_data_p.innerText = 'addContact POST request failed with: ' + response.statusText;
-			}
-		}).catch((error) => {
-			console.log(error);
-			add_contact_data_p.innerText = 'addContact POST request failed with: ' + error;
+		const response = await submitPOSTRequest(data);
+
+		if (response.ok) {
+			add_contact_data_p.innerText = 'Added to database!';
+		} else {
+			add_contact_data_p.innerText = response.statusText;
+		}
+	}
+
+	// Use Fetch API to send a POST request
+	async function submitPOSTRequest(requestBody = {}) {
+		return fetch(serverEndpointPOSTurl, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(requestBody)
 		});
 	}
 
@@ -55,40 +63,27 @@ window.addEventListener('load', () => {
 		get_contact_data_p.innerText = 'Getting contact...';
 
 		const url_search_params = new URLSearchParams({
-			'firstName': get_contact_first_name_input.value,
-			'lastName': get_contact_last_name_input.value
+			'first_name': get_contact_first_name_input.value,
+			'last_name': get_contact_last_name_input.value
 		});
 
-		submitGETRequest(serverEndpointGETurl + '?' + url_search_params).then((response) => {
-			if (response.ok) {
-				get_contact_data_p.innerText = response.json();
-			} else {
-				get_contact_data_p.innerText = 'getContact GET request failed with: ' + response.statusText;
-			}
-		}).catch((error) => {
-			console.log(error);
-			get_contact_data_p.innerText = 'getContact GET request failed with: ' + error;
-		});
+		let response = await submitGETRequest(url_search_params);
+
+		if (response.ok) {
+			const contact_data = await response.json();
+			get_contact_data_p.innerText = contact_data.first_name + ' ' + contact_data.last_name + '\n' + contact_data.email;
+		} else {
+			get_contact_data_p.innerText = response.statusText;
+		}
 	}
 
-	async function submitGETRequest(url = '') {
-		return fetch(url, {
+	// Use Fetch API to send a GET request
+	async function submitGETRequest(searchParameters = '') {
+		return fetch(serverEndpointGETurl + '?' + searchParameters, {
 			method: 'GET',
 			headers: {
-				'Content-Type': 'application/json'
-			},
-			redirect: 'follow'
-		});
-	}
-
-	async function submitPOSTRequest(requestBody = {}) {
-		return fetch(serverEndpointPOSTurl, {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			redirect: 'follow',
-			body: JSON.stringify(requestBody)
+				'Accept': 'application/json'
+			}
 		});
 	}
 });
