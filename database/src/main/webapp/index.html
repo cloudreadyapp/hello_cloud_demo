@@ -1,11 +1,61 @@
+<html lang="en">
 <html>
+<head>
+	<meta charset="utf-8">
+	<title>Hello Cloud Demo</title>
+	<link rel='shortcut icon' type='image/x-icon' href='./favicon.ico' />
+	<link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans&display=swap" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="./style.css">
+</head>
 <body>
-	<h1>Welcome to Cloud Demo Backend</h1>
-<div>
-	<h2>Backend</h2>
-	<p>
-		Check out a document entry at <a href="demo/database/retrieve/randomEmail@123.ca">getSamepleDocument()</a>
-	</p>
-</div>
+	<div id="site-container">
+		<img src="./cloudreadyapp_logo.svg" alt="Cloud Ready App Logo" width="200" height="200">
+		<h1>Hello Cloud Demo</h1>
+		<br>
+		<h3>Let's add a new person to our contact list</h3>
+		<form id="add_contact_form">
+			<div class="request-parameter-container">
+				<label for="first_name">First Name:</label>
+				<input type="text" name="first_name" id="add_contact_first_name_input" value="Sam">
+			</div>
+			<div class="request-parameter-container">
+				<label for="last_name">Last Name:</label>
+				<input type="text" name="last_name" id="add_contact_last_name_input" value="Cloud">
+			</div>
+			<div class="request-parameter-container">
+				<label for="email">Email:</label>
+				<input type="text" name="email" id="add_contact_email_input" size="24" maxlength="40" value="samcloud@cloudready.app">
+			</div>
+			<br><br>
+			<div>
+				<input type="submit" value="Submit POST Request">
+			</div>
+			<p id="add_contact_data_p"></p>
+		</form>
+		<br>
+		<h3>Let's retrieve a person from our contact list</h3>
+		<form id="get_contact_form">
+			<div class="request-parameter-container">
+				<label for="first_name">First Name:</label>
+				<input type="text" name="first_name" id="get_contact_first_name_input" value="Sam">
+			</div>
+			<div class="request-parameter-container">
+				<label for="last_name">Last Name:</label>
+				<input type="text" name="last_name" id="get_contact_last_name_input" value="Cloud">
+			</div>
+			<br><br>
+			<div>
+				<input type="submit" value="Submit GET Request">
+			</div>
+		</form>
+		<p id="get_contact_data_p"></p>
+		<br>
+		<p>
+			<a href="https://github.com/cloudreadyapp/hello_cloud_demo_frontend">Frontend Code</a>
+			/
+			<a href="https://github.com/cloudreadyapp/hello_cloud_demo">Backend Code</a>
+		</p>
+	</div>
 </body>
+<script src="./index.js"></script>
 </html>
