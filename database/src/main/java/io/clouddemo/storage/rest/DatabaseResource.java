@@ -70,7 +70,7 @@ public class DatabaseResource {
 			List<String> uuids = this.cloudantClient.uuids(numberOfUUIDs);
 			uuid = uuids.get(0);
 		}
-		
+
 		return uuid;
 	}
 
@@ -109,8 +109,8 @@ public class DatabaseResource {
     @Path("retrieve")
     @Produces(MediaType.APPLICATION_JSON)
     public String getFromDatabase(
-			@QueryParam("firstName") final String firstName,
-			@QueryParam("lastName") final String lastName) {
+			@QueryParam("first_name") final String firstName,
+			@QueryParam("last_name") final String lastName) {
 		Database db = connectToDatabase(DEMO_DATABASE); // DATABASE_CODE
 		String documentId = firstName + lastName;
 
@@ -122,11 +122,11 @@ public class DatabaseResource {
             return document.toJson();
         } catch (NoDocumentException e) {
             e.printStackTrace();
-        } 	
-        
+        }
+
         return "Document " + documentId + " not found";
 	}
-	
+
 	@POST
 	@Path("store/document")
 	@Consumes(MediaType.APPLICATION_JSON)
