@@ -15,7 +15,6 @@ import com.google.gson.JsonElement;
 import javax.json.bind.annotation.JsonbProperty;
 
 public class DemoDocument extends Document {
-
 	public static final String EMAIL_PROPERTY_STRING = "email";
 	public static final String FIRSTNAME_PROPERTY_STRING = "first_name";
 	public static final String LASTNAME_PROPERTY_STRING = "last_name";
@@ -29,8 +28,7 @@ public class DemoDocument extends Document {
 	@JsonbProperty(LASTNAME_PROPERTY_STRING)
 	private String last_name = null;
 
-	public DemoDocument() {
-	}
+	public DemoDocument() {}
 
 	/* For POST requests */
 	@JsonbCreator
@@ -61,27 +59,6 @@ public class DemoDocument extends Document {
 		this.last_name = last_name;
 	}
 
-	/**
-	 * Set id for a non-partitioned document.
-	 */
-	@Override
-	public void setId(String id){
-		super.setId(id);
-	}
-
-	/**
-	 * Used to strip the author ID from a partitioned document, so that
-	 * only the document ID remains. The author ID is secure data, which
-	 * should NOT get passed to the client.
-	 */
-	public void removeAuthorId() {
-		String id = super.getId();
-		int index = id.indexOf(":");
-		if (-1 != index) {
-			super.setId(id.substring(index + 1));
-		}
-	}
-
 	public String toJson() {
 		Gson gson = new Gson();
 		return parseResponseJson(gson.toJson(this));
@@ -94,6 +71,7 @@ public class DemoDocument extends Document {
 
 	/**
 	 * Removes irrelevant fields from json object to be returned
+	 *
 	 * @param json String Json Object
 	 * @return String Json object without irrelevant fields.
 	 */
@@ -101,7 +79,7 @@ public class DemoDocument extends Document {
 		final String _REV = "_rev";
 		final String _DELETED = "_deleted";
 		final String _ID = "_id";
-		
+
 		JsonParser parser = new JsonParser();
 
 		/* Remove _rev and _deleted */
@@ -132,10 +110,9 @@ public class DemoDocument extends Document {
 		boolean isEmpty = false;
 
 		if (null == this.first_name && null == this.last_name) {
-			isEmpty = true;	
+			isEmpty = true;
 		}
 
 		return isEmpty;
 	}
-
 }
