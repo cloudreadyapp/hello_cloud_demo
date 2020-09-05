@@ -1,75 +1,93 @@
 # hello-cloud-demo-backend
-Hello Cloud App, A Skeleton to help you build your cloud ready backend for your app
+Hello Cloud App, a skeleton to help you build your cloud ready backend for your app.
 
 ## System pre-requisites
 - Java
 - Git
 - Maven
+- Docker
 
-# How to run the project
+---
 
-## Clone or Fork the project
+## How to build and run the project locally
+
+### Clone or Fork the project
 ```
 git clone https://github.com/cloudreadyapp/hello_cloud_demo.git
 cd hello_cloud_demo
-# put server.env file in database/src/main/liberty/config/ directory
-# or export cloudantapikey via
-export cloudantapikey=<key>
 ```
 
-## Build and run the project (for long instruction check README from scripts folder)
+### Build and run project as docker container
+
+#### [1] Install required libraries
 ```
-./scripts/buildAndRunContainers.sh
+mvn -f database install
 ```
 
-## To stop all containers.
+#### [2] Install required maven packages
 ```
-./scripts/stopContainers.sh
-```
-
-## To stop and clean all containers (recommended if you make updates).
-```
-./scripts/cleanContainers.sh
+mvn -f database liberty:package
 ```
 
-## To view microservice output as it occurs, take note of the microservice's container name or id and run:
+#### [3] Build and run docker container as a microservice
 ```
-docker logs -f <CONTAINER_ID_OR_CONTAINER_NAME>
-```
-For example,
-```
-docker logs -f demo_database
-```
-Use CTRL+C to quit viewing the logs.
-
-## Testing the microservices. Once the containers are up and running do:
-```
-cd test
-mvn liberty:dev
+docker pull open-liberty
+docker build -t simple_database_microservice database
+docker run -d --name hello_cloud_demo -p 9080:9080 -e cloudantapikey="<insert cloudant api key>" simple_database_microservice
 ```
 
-##### And press enter
+Take note of the outputted docker `<imageID>` so you can delete it later once you're done.
+If you lose it, you can do `docker ps -a` to list all running docker images.
 
-#### If you want to use browser or curl you'll need to include an extra header parameter e.g.
+#### [4] View the running app!
+http://localhost:9080/HelloCloudDemoProject
+
+#### [5] Stop container
 ```
-curl http://localhost:9080/HelloCloudDemoProject/demo/database/retrieve?firstName=firstname&lastName=lastname
-```
-
-#### If using postman: when making a request add an extra header field that has Key: "Authorization" and Value: "Bearer `<accessToken>`"
-- http://localhost:9080/HelloCloudDemoProject/demo/database/retrieve?firstName=Igor&lastName=Braga
-
-#### Sample POST request
-- http://localhost:9080/HelloCloudDemoProject/demo/database/store/document
-
-#### Sample POST body
-```
-{
-  "first_name": "Igor",
-  "last_name": "Braga",
-  "email": "igor@braga.random.com"
-}
+docker stop hello_cloud_demo
 ```
 
---- 
-# Interacting with the database
-#### Refer to the instructions [here](exampleJSON/README.md).
+#### [6] Erase containers and clean project
+Grab the docker `<imageID>` of simple_database_microservice by running `docker images`.
+
+```
+docker rm hello_cloud_demo
+docker image rm --force <imageID>
+docker system prune -f
+mvn clean
+```
+
+---
+
+## Making requests to the database
+
+Here are some sample cURL requests to send/retrieve data to/from our database. These requests are based on a locally-run backend (i.e. `localhost:9080`).
+
+You can also use [Hoppscotch](https://hoppscotch.io/) or [postman](https://www.postman.com/downloads/) to make HTTP requests.
+
+### DemoDocument fields
+- `"first_name"`, eg. "Sam"
+- `"last_name"`, eg. "Cloud"
+- `"email"`, eg. "samcloud@cloudready.app"
+
+### Sample POST request
+```
+curl -X POST \
+  'http://localhost:9080/HelloCloudDemoProject/demo/database/store/document' \
+  -H 'Content-Type: application/json; charset=utf-8' \
+  -d '{
+    "first_name": "Sam",
+    "last_name": "Cloud",
+    "email": "samcloud@cloudready.app"
+  }'
+```
+
+### Sample GET request
+```
+curl -X GET \
+  'http://localhost:9080/HelloCloudDemoProject/demo/database/retrieve?first_name=Sam&last_name=Cloud'
+```
+Response:
+```
+{"email":"samcloud@cloudready.app","first_name":"Sam","last_name":"Cloud"}
+```
