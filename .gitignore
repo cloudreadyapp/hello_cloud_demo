@@ -1,4 +1,4 @@
-target/
+database/target
 .classpath
 .factorypath
 .project
@@ -6,6 +6,4 @@ target/
 .DS_store
 .vscode/
 server.env
-database/dockerfiles/
-database/docker-compose.yml
 cloudDemoBuild.log
