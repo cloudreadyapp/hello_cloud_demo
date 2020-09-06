@@ -10,9 +10,9 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
+    <!-- Each module can be deployed as an individual microservice -->
     <modules>
         <module>database</module>
         <!-- <module>anotherModule</module> -->
     </modules>
-
 </project>

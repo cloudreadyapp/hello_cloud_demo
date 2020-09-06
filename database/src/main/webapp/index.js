@@ -13,7 +13,7 @@ window.addEventListener('load', () => {
 	const get_contact_data_p = document.getElementById('get_contact_data_p');
 
 	// Server Endpoints
-	const serverEndpointPOSTurl = 'http://' + window.location.host + '/HelloCloudDemoProject/demo/database/store/document';
+	const serverEndpointPOSTurl = 'http://' + window.location.host + '/HelloCloudDemoProject/demo/database/store';
 	const serverEndpointGETurl = 'http://' + window.location.host + '/HelloCloudDemoProject/demo/database/retrieve';
 
 	// Add contact form submit listener
@@ -43,7 +43,7 @@ window.addEventListener('load', () => {
 		if (response.ok) {
 			add_contact_data_p.innerText = 'Added to database!';
 		} else {
-			add_contact_data_p.innerText = response.statusText;
+			add_contact_data_p.innerText = response.status + ' ' + response.statusText;
 		}
 	}
 
@@ -73,7 +73,7 @@ window.addEventListener('load', () => {
 			const contact_data = await response.json();
 			get_contact_data_p.innerText = contact_data.first_name + ' ' + contact_data.last_name + '\n' + contact_data.email;
 		} else {
-			get_contact_data_p.innerText = response.statusText;
+			get_contact_data_p.innerText = response.status + ' ' + response.statusText;
 		}
 	}
 

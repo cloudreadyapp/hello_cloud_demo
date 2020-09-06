@@ -10,12 +10,12 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import com.cloudant.client.api.CloudantClient;
 import com.cloudant.client.api.Database;
 import com.cloudant.client.api.ClientBuilder;
 import com.cloudant.client.org.lightcouch.NoDocumentException;
-import com.cloudant.client.api.model.Response;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
@@ -25,22 +25,26 @@ import java.net.URL;
 @Path("database")
 @ApplicationScoped
 public class DatabaseResource {
-
 	/***************************************************************************************************************/
 	/************************************************ DATABASE CODE ************************************************/
 	/***************************************************************************************************************/
+
+	/* Cloudant API Key */
 	@Inject
 	@ConfigProperty(name = "cloudantapikey")
 	private String cloudantapikey;
 
-	private final String DEMO_DATABASE = "cloud-app"; /* Database Name */
-	private final String END_OF_LOG_STRING = "---------------------------------------------------------------------------------------";
+	/* Cloudant Endpoint URL */
+	@Inject
+	@ConfigProperty(name = "cloudantendpoint")
+	private String databaseEndpoint;
 
-	/* Modify databaseEndpoint to point to your Cloudant Endpoint */
-	private final String databaseEndpoint = "https://4b9321a6-d76e-4e55-8dec-ee0b88021030-bluemix.cloudantnosqldb.appdomain.cloud";
-	private CloudantClient cloudantClient;
+	/* Cloudant Database Name */
+	@Inject
+	@ConfigProperty(name = "cloudantdbname")
+	private String cloudantdbname;
 
-	protected Database connectToDatabase(final String databaseName) {
+	protected Database connectToDatabase() {
 		URL databaseURL = null;
 		try {
 			databaseURL = new URL(databaseEndpoint);
@@ -49,21 +53,19 @@ public class DatabaseResource {
 		}
 
 		// Connect to Cloudant account
-		this.cloudantClient = ClientBuilder.url(databaseURL)
+		CloudantClient cloudantClient = ClientBuilder.url(databaseURL)
 			 .iamApiKey(this.cloudantapikey)
 			 .disableSSLAuthentication()
 			 .build();
 
 		// Connect to database - false means don't create the database if it doesn't already exist
-		Database db = this.cloudantClient.database(databaseName, false);
-
-		System.out.println("Connected to Cloudant database");
+		Database db = cloudantClient.database(cloudantdbname, false);
 
 		return db;
 	}
 
 	/***************************************************************************************************************/
-	/************************************************* REST APIS **************************************************/
+	/************************************************* REST APIS ***************************************************/
 	/***************************************************************************************************************/
 
 	/**
@@ -76,70 +78,51 @@ public class DatabaseResource {
 	@GET
     @Path("retrieve")
     @Produces(MediaType.APPLICATION_JSON)
-    public String getContactFromDatabase(
+    public Response getContactFromDatabase(
 		@QueryParam("first_name") final String firstName,
 		@QueryParam("last_name") final String lastName
 	) {
 		String documentId = firstName + lastName;
-		String result = "Document " + documentId + " not found";
 
         try {
-			Database db = connectToDatabase(DEMO_DATABASE); // DATABASE_CODE
-			// Find document in database
-            DemoDocument document = db.find(DemoDocument.class, documentId); // DATABASE_CODE
-            System.out.println("Retrieved " + documentId + " from database");
+			Database db = connectToDatabase();
 
-            result = document.toJson();
+			/* Look for the contact in the database, throws NoDocumentException if not found */
+			ContactDocument document = db.find(ContactDocument.class, documentId);
+			return Response.status(Response.Status.OK).entity(document.toJson()).build();
         } catch (NoDocumentException e) {
             e.printStackTrace();
         }
 
-        return result;
+        return Response.status(Response.Status.NOT_FOUND).entity("Document " + documentId + " not found").build();
 	}
 
 	/**
-	 * Store data in the form of a DemoDocument to the database.
+	 * Store data in the form of a ContactDocument to the database.
 	 *
-	 * @param document JSON data document to store to the database.
+	 * @param document JSON data document to store to the database, provided in the body of the POST request.
 	 * @return The stored JSON or an error message.
 	 */
 	@POST
-	@Path("store/document")
+	@Path("store")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public String addContactToDatabase(
-		DemoDocument document
-	) {
-		String doc = document.toJson();
-		String result = "Failed storing document to database";
-
+	public Response addContactToDatabase(ContactDocument document) {
 		if (!document.isEmpty()) {
-			Database db = connectToDatabase(DEMO_DATABASE); // DATABASE_CODE
+			Database db = connectToDatabase();
 
-			logDocument(document, "Store Document");
-			/* Overides _id generated by Cloudant (this is a non-partitioned database) 
-			* This way you need to make sure that, there's no duplicate _id's in the database */
+			/* Overides _id generated by Cloudant (this is a non-partitioned database) */
 			document.setFirstLastNameAsId();
 
-			Response response = db.save(document); // DATABASE_CODE
-			if (response.getError() != null) {
-				System.out.println("Document store FAILED. Error message: " + response.getError());
+			/* Save the new contact to the database, get the error if it exists */
+			String responseError = db.save(document).getError();
+
+			if (responseError == null) {
+				return Response.status(Response.Status.CREATED).entity(document.toJson()).build();
 			} else {
-				result = document.toJson();
+				return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Failed storing contact").build();
 			}
 		}
 
-		return result;
-	}
-
-	/**
-	 * Log the json content of a document with the specified title.
-	 *
-	 * @param doc The document to log.
-	 * @param title The title of the log.
-	 */
-	private void logDocument(DemoDocument doc, String title) {
-		System.out.println(title);
-		System.out.println(doc.toJsonPrettyPrinting());
-		System.out.println(END_OF_LOG_STRING);
+		return Response.status(Response.Status.BAD_REQUEST).entity("Contact is missing information - both first and last names needed").build();
 	}
 }
