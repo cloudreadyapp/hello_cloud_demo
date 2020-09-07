@@ -76,25 +76,25 @@ public class DatabaseResource {
 	 * @return The stored JSON with the contact's info.
 	 */
 	@GET
-    @Path("retrieve")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response getContactFromDatabase(
+	@Path("retrieve")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getContactFromDatabase(
 		@QueryParam("first_name") final String firstName,
 		@QueryParam("last_name") final String lastName
 	) {
 		String documentId = firstName + lastName;
 
-        try {
+		try {
 			Database db = connectToDatabase();
 
 			/* Look for the contact in the database, throws NoDocumentException if not found */
 			ContactDocument document = db.find(ContactDocument.class, documentId);
 			return Response.status(Response.Status.OK).entity(document.toJson()).build();
-        } catch (NoDocumentException e) {
-            e.printStackTrace();
-        }
+		} catch (NoDocumentException e) {
+			e.printStackTrace();
+		}
 
-        return Response.status(Response.Status.NOT_FOUND).entity("Document " + documentId + " not found").build();
+		return Response.status(Response.Status.NOT_FOUND).entity("Document " + documentId + " not found").build();
 	}
 
 	/**
