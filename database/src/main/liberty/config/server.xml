@@ -16,7 +16,7 @@
 		id="defaultHttpEndpoint" host="*"/>
 	<!-- end::httpEndpoint[] -->
 
-    <!-- tag::webApplication[] -->
+	<!-- tag::webApplication[] -->
   	<webApplication location="hello-cloud-demo-database-microservice.war" contextRoot="${app.context.root}"/>
   	<!-- end::webApplication[] -->
 </server>

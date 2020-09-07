@@ -27,6 +27,7 @@ public class ContactDocument extends Document {
 		super.setId(newID);
 	}
 
+	/* First Name and Last Name are required fields for the ContactDocument */
 	public boolean isEmpty() {
 		boolean isEmpty = false;
 
@@ -37,10 +38,7 @@ public class ContactDocument extends Document {
 		return isEmpty;
 	}
 
-	/***************************************************************************************************************/
-	/***************************************** JSON Formatting Helper Methods **************************************/
-	/***************************************************************************************************************/
-
+	/* JSON formatting helper method */
 	public String toJson() {
 		Gson gson = new Gson();
 		return gson.toJson(this);

@@ -18,18 +18,18 @@ a {
 }
 
 input[type=text] {
-    padding: 5px;
-    border: 2px solid #A791C2;
+	padding: 5px;
+	border: 2px solid #A791C2;
 	border-radius: 5px;
 	font-size: 15px;
 }
 
 input[type=submit] {
-    padding: 5px 15px;
+	padding: 5px 15px;
 	background:#A791C2;
 	color: white;
-    border: 0 none;
-    cursor: pointer;
+	border: 0 none;
+	cursor: pointer;
 	border-radius: 5px;
 	font-size: 15px;
 }
