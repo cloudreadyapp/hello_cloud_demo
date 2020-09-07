@@ -6,14 +6,19 @@ A simple full stack cloud app you can reference to build your own cloud ready ap
 
 ---
 
+## Step-by-step on how to deploy the `hello_cloud_demo` app with IBM Cloud, Docker and Kubernetes:
+### [Tutorial](tutorial.md)
+
+---
+
 ## How to build and run the project locally
 
-## Pre-requisites
+### Pre-requisites
 - An account on [IBM Cloud](https://cloud.ibm.com/)
 - An [IBM Cloudant](https://www.ibm.com/ca-en/cloud/cloudant) instance - [IBM Cloud Platform Instructions](https://cloud.ibm.com/docs/Cloudant?topic=Cloudant-creating-an-ibm-cloudant-instance-on-ibm-cloud) or [CLI Instructions](https://cloud.ibm.com/docs/Cloudant?topic=Cloudant-creating-an-ibm-cloudant-instance-on-ibm-cloud-by-using-the-ibm-cloud-cli)
 - A non-partitioned Cloudant database in your Cloudant instance
 
-### System pre-requisites
+#### System pre-requisites
 - Docker
 - Java
 - Git
