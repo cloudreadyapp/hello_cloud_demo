@@ -101,7 +101,7 @@ mvn -f database liberty:package
 docker pull open-liberty
 ```
 
-### 8. Create container image with tag name (database is the microservice we’re creating)
+### 8. Create container image (database is the microservice we’re creating)
 ```
 docker build -t hello-cloud-app database
 ```
